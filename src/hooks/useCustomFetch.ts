@@ -21,6 +21,7 @@ export function useCustomFetch() {
           return data as Promise<TData>
         }
 
+
         const result = await fakeFetch<TData>(endpoint, params)
         cache?.current.set(cacheKey, JSON.stringify(result))
         return result
@@ -34,10 +35,17 @@ export function useCustomFetch() {
       params?: TParams
     ): Promise<TData | null> =>
       wrappedRequest<TData>(async () => {
+        debugger
         const result = await fakeFetch<TData>(endpoint, params)
+        const cacheKey = getCacheKey('paginatedTransactions', params)
+        const cacheResponse = cache?.current.get(cacheKey)
+        if(cacheResponse){
+          let resp = JSON.parse(cacheResponse)
+        }
+        // cache?.current.set('paginatedTransactions', JSON.stringify(result))
         return result
       }),
-    [wrappedRequest]
+    [cache, wrappedRequest]
   )
 
   const clearCache = useCallback(() => {

@@ -32,7 +32,7 @@ export const getTransactionsPaginated = ({
   }
 
   const nextPage = end < data.transactions.length ? page + 1 : null
-
+  debugger;
   return {
     nextPage,
     data: data.transactions.slice(start, end),
@@ -47,14 +47,20 @@ export const getTransactionsByEmployee = ({ employeeId }: RequestByEmployeeParam
   return data.transactions.filter((transaction) => transaction.employee.id === employeeId)
 }
 
-export const setTransactionApproval = ({ transactionId, value }: SetTransactionApprovalParams): void => {
-  const transaction = data.transactions.find(
+export const setTransactionApproval = ({ transactionId, value }: SetTransactionApprovalParams) => {
+  let tempObj = [...data.transactions]
+  debugger
+  const transaction = tempObj.find(
     (currentTransaction) => currentTransaction.id === transactionId
   )
 
   if (!transaction) {
     throw new Error("Invalid transaction to approve")
   }
-
+  debugger
   transaction.approved = value
+  data.transactions.map((item, index)=>{
+    return (item.id === transactionId ? transaction : item)
+  })
+  return data
 }

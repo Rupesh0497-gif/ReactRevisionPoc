@@ -14,6 +14,7 @@ export function fakeFetch<TData, TParams extends object = object>(
   params?: TParams
 ): Promise<TData> {
   return new Promise((resolve, reject) => {
+
     mockApiLogger({
       message: "Loading request",
       data: { endpoint, params },
@@ -21,10 +22,11 @@ export function fakeFetch<TData, TParams extends object = object>(
     })
 
     let result: TData
-
+debugger
     try {
       switch (endpoint) {
         case "employees":
+
           result = getEmployees() as unknown as TData
 
           setTimeout(() => {
@@ -34,6 +36,7 @@ export function fakeFetch<TData, TParams extends object = object>(
           break
 
         case "paginatedTransactions":
+
           result = getTransactionsPaginated(params as PaginatedRequestParams) as unknown as TData
 
           setTimeout(() => {
@@ -43,6 +46,7 @@ export function fakeFetch<TData, TParams extends object = object>(
           break
 
         case "transactionsByEmployee":
+
           result = getTransactionsByEmployee(params as RequestByEmployeeParams) as unknown as TData
 
           setTimeout(() => {
@@ -52,6 +56,7 @@ export function fakeFetch<TData, TParams extends object = object>(
           break
 
         case "setTransactionApproval":
+          debugger
           result = setTransactionApproval(params as SetTransactionApprovalParams) as unknown as TData
 
           setTimeout(() => {
